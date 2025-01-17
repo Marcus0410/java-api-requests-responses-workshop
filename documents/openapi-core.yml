@@ -1,0 +1,266 @@
+openapi: 3.1.0
+info:
+  title: Java API Requests and Responses Workshop - Core Criteria
+  description: Core API for the Requests and Responses workshop with no errors in this file
+  version: 0.0.4
+  contact:
+    name: Responses and Requests
+
+servers:
+  - url: http://localhost:4000
+tags:
+  - name: authors
+  - name: publishers
+paths:
+  /authors:
+    post:
+      tags:
+        - authors
+      operationId: postAuthor
+      summary: Route to use (with a payload) when creating a new author
+      description: New author creation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAuthor'
+      responses:
+        '201':
+          description: Author created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+    get:
+      tags:
+        - authors
+      summary: Plain GET to access the whole list
+      description: Get all of the listed authors
+      operationId: getAuthors
+      responses:
+        '200':
+          description: Get all authors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllAuthors'
+  /authors/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: Id of the author
+          required: true
+          schema:
+            type: integer
+      tags:
+        - authors
+      summary: Get a specific author using their ID
+      description: Get one author from the list
+      operationId: getSpecificAuthor
+      responses:
+        '200':
+          description: Get a single author
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+
+    put:
+      tags:
+        - authors
+      summary: Update an existing author
+      description: use the ID of an author to update them using the payload
+      operationId: updateAuthor
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the author to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAuthor'
+      responses:
+        '201':
+          description: Author successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+    delete:
+      tags:
+        - authors
+      summary: Delete an author using the ID
+      description: Delete an author using their ID
+      operationId: deleteAuthor
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the author to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully deleted the Author
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+  /publishers:
+    post:
+      tags:
+        - publishers
+      operationId: postPublisher
+      summary: Route to use (with a payload) when creating a new publisher
+      description: New publisher creation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePublisher'
+      responses:
+        '201':
+          description: Publisher created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publisher'
+    get:
+      tags:
+        - publishers
+      summary: Plain GET to access the whole list
+      description: Get all of the listed publishers
+      operationId: getPublisher
+      responses:
+        '200':
+          description: Get all publishers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllPublishers'
+  /publishers/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: Id of the author
+          required: true
+          schema:
+            type: integer
+      tags:
+        - publishers
+      summary: Get a specific publisher using their ID
+      description: Get one publisher from the list
+      operationId: getSpecificPublisher
+      responses:
+        '200':
+          description: Get a single publisher
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publisher'
+
+    put:
+      tags:
+        - publishers
+      summary: Update an existing publisher
+      description: use the ID of a publisher to update them using the payload
+      operationId: updatePublisher
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the publisher to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePublisher'
+      responses:
+        '201':
+          description: Publisher successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publisher'
+    delete:
+      tags:
+        - publishers
+      summary: Delete a publisher using the ID
+      description: Delete a publisher using their ID
+      operationId: deletePublisher
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the publisher to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully deleted the publisher
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publisher'
+components:
+  schemas:
+    CreateAuthor:
+      type: object
+      required: [name, email]
+      properties:
+        name:
+          type: string
+          example: "JRR Tolkien"
+        email:
+          type: string
+          example: "jrr@tolkien.com"
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "JRR Tolkien"
+        email:
+          type: string
+          example: "jrr@tolkien.com"
+    AllAuthors:
+      type: array
+      items:
+        $ref: '#/components/schemas/Author'
+    CreatePublisher:
+      type: object
+      required: [name, city]
+      properties:
+        name:
+          type: string
+          example: "Penguin"
+        city:
+          type: string
+          example: "London"
+    Publisher:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Penguin"
+        city:
+          type: string
+          example: "London"
+    AllPublishers:
+      type: array
+      items:
+        $ref: '#/components/schemas/Publisher': '#/components/schemas/Author'
